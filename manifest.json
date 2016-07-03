@@ -1,0 +1,27 @@
+{
+
+  "description": "Opera's Speeddial front page, in Firefox",
+  "manifest_version": 2,
+  "name": "Firefox Speeddial",
+  "version": "1.0",
+  "homepage_url": "https://github.com/JohnRayson",
+  "icons": {
+    "48": "icons/page-48.png"
+  },
+
+  "applications": {
+    "gecko": {
+      "id": "Speeddial",
+      "strict_min_version": "45.0"
+    }
+  },
+
+  "background": {
+    "scripts": ["Speeddial.js"]
+  },
+
+  "browser_action": {
+    "default_icon": "icons/page-32.png"
+  }
+
+}

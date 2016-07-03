@@ -1,0 +1,7 @@
+
+.search { width: 500px; margin: auto; padding-top: 50px;}
+.search input, .search button { padding: 5px; font-size: 15px; }
+
+.dials { width: 80%; margin: auto; padding-top: 50px; }
+.dials .dial { width: 200px; height: 200px; margin:5px; background-color: #ff0000; float: left; }
+.dials .dial:hover { cursor: pointer; }
