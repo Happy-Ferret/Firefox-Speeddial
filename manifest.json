@@ -1,17 +1,17 @@
 {
 
-  "description": "Opera's Speeddial front page, in Firefox",
+  "description": "Opera style Speed dial",
   "manifest_version": 2,
-  "name": "Firefox Speeddial",
+  "name": "open-my-page",
   "version": "1.0",
-  "homepage_url": "https://github.com/JohnRayson",
+  "homepage_url": "https://github.com/JohnRayson/Firefox-Speeddial",
   "icons": {
     "48": "icons/page-48.png"
   },
 
   "applications": {
     "gecko": {
-      "id": "Speeddial",
+      "id": "opera-speed-dial@mozilla.org",
       "strict_min_version": "45.0"
     }
   },

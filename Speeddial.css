@@ -1,7 +1,8 @@
-
+body { background-color: #ddd; }
 .search { width: 500px; margin: auto; padding-top: 50px;}
 .search input, .search button { padding: 5px; font-size: 15px; }
 
 .dials { width: 80%; margin: auto; padding-top: 50px; }
-.dials .dial { width: 200px; height: 200px; margin:5px; background-color: #ff0000; float: left; }
+.dials .dial { width: 200px; height: 200px; margin:5px;  float: left; border: 1px solid #666;}
 .dials .dial:hover { cursor: pointer; }
+.dials #dial_add { background-color: #bbb; line-height: 200px; font-size: 100px; color: #666; }
