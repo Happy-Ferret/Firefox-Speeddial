@@ -1,22 +1,25 @@
 /*
 Open a new tab, and load "my-page.html" into it.
 */
+var dials = [];
+var dial = function(name, url, colour)
+{
+	this._name = name;
+	this._url = url;
+	this._colour =colour;
+}
+
 function speedDial() {
    chrome.tabs.create({
      "url": chrome.extension.getURL("Speeddial.html")
    });
 }
 
-function search()
+function drawDial(dial)
 {
-	var text = document.getElementById("speeddial_searchTxt").value;
-	document.location = "https://www.google.co.uk/search?q=" + text;
-}
-
-function drawDial(name, url, colour)
-{
-	var html = "<div class='dial' data-url='" + url + "' style='background-color: " + colour + ";'>"
-		     + "<label>" + name + "</label>"
+	console.log(dial);
+	var html = "<div class='dial' data-url='" + dial._url + "' style='background-color: " + dial._colour + ";'>"
+		     + "<label>" + dial._name + "</label>"
 		     + "</div>";
 	var $html = $(html);
 	$html.click(function()
@@ -28,6 +31,38 @@ function drawDial(name, url, colour)
 
 utils.ready(function()
 {
+	// try to read back the storage
+	chrome.storage.local.get('dials', (res) => {
+		var temp = null;
+		try
+		{
+			temp = JSON.parse(res.dials);
+		} catch(ex) 
+		{ 
+			console.log(ex);
+			console.log(res);
+		}
+		
+		dials = temp || [];
+		console.log(dials);
+		
+		for(var i = 0; i < dials.length; i++)
+		{
+			drawDial(dials[i]);
+		}
+	});
+	
+	for(var i = 0; i < dials.length; i++)
+	{
+		drawDial(dials[i]);
+	}
+	
+	$("#speeddial_searchBtn").click(function()
+	{
+		var text = $("#speeddial_searchTxt").val();
+		document.location = "https://www.google.co.uk/search?q=" + text;
+	});
+	
 	$("#dial_add").click(function()
 	{
 		var id = utils.createUUID();
@@ -42,8 +77,20 @@ utils.ready(function()
 			{ 
 				"Add": function () 
 				{ 
-					drawDial($(this).find("#addText").val(), $(this).find("#addURL").val(), $(this).find("#addColour").val());
-					$(this).empty().remove();
+					try
+					{
+						var $this = $(this);
+						var add_dial = new dial($this.find("#addText").val(),$this.find("#addURL").val(),$this.find("#addColour").val());
+						dials.push(add_dial);
+						console.log(add_dial);
+						
+						chrome.storage.local.set({ dials: JSON.stringify(dials) });
+						
+						drawDial(add_dial);
+						$(this).empty().remove();
+					}
+					catch(ex)
+					{ alert(ex); }
 				},
 				"Close": function () { $(this).empty().remove(); }
 			},
