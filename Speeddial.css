@@ -3,6 +3,11 @@ body { background-color: #ddd; }
 .search input, .search button { padding: 5px; font-size: 15px; }
 
 .dials { width: 80%; margin: auto; padding-top: 50px; }
-.dials .dial { width: 200px; height: 200px; margin:5px;  float: left; border: 1px solid #666;}
+.dials .dial { width: 200px; height: 200px; margin:5px;  float: left; border: 1px solid #666; position: relative;}
+.dials .dial .extra { display: none; }
+.dials .dial .menu { position: absolute; top: 0px; right: 0px; width: 20px; text-align: center; background-color: #bbb;  }
 .dials .dial:hover { cursor: pointer; }
+.dials .dial:hover .extra { display: block; }
+.dials .dial ul { position: absolute; top: 5px; right: 1px; display: none; list-style: none; border: 1px solid #bbb; padding: 2px; }
+.dials .dial ul .item { margin: 0px; padding: 2px; background-color: #bbb; }
 .dials #dial_add { background-color: #bbb; line-height: 200px; font-size: 100px; color: #666; }

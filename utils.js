@@ -231,6 +231,15 @@ utils.initilize = function ()
     if (!loaded)
         return false;
 
+	// utils.removeAt = function( array, index)
+	// {
+		// var vItem = array[index];
+		// if (vItem) 
+			// this.splice(index, 1);
+		// return array;
+    // }
+    
+	
     //basic alert dialogue
     utils.alert = function (message)
     {
