@@ -193,6 +193,14 @@ utils.localStorage = function (appId, persist)
     }
 }
 
+utils.removeAt = function(array, index)
+{
+	var vItem = array[index];
+	if (vItem) 
+		array.splice(index, 1);
+	return array;
+}
+
 // initilize - this will allow wait on loading dependencies.
 utils.initilize = function ()
 {
@@ -230,15 +238,6 @@ utils.initilize = function ()
     }
     if (!loaded)
         return false;
-
-	// utils.removeAt = function( array, index)
-	// {
-		// var vItem = array[index];
-		// if (vItem) 
-			// this.splice(index, 1);
-		// return array;
-    // }
-    
 	
     //basic alert dialogue
     utils.alert = function (message)

@@ -10,20 +10,18 @@ var dial = function(name, url, colour)
 	this._colour =colour;
 }
 
-// function removeDial(id)
-// {
-	// alert(id);
-	// for(var i=0; i < dials.length; i++)
-	// {
-		// if(dial[i]._id == id)
-		// {
-			// //dials = utils.removeAt(dials,i);
-			// chrome.storage.local.set({ dials: JSON.stringify(dials) });
-			
-			// $("#" + id).empty().remove();
-		// }
-	// }
-// }
+function removeDial(id)
+{
+	for(var i=0; i < dials.length; i++)
+	{
+		if(dials[i]._id == id)
+		{
+			dials = utils.removeAt(dials,i);
+			chrome.storage.local.set({ dials: JSON.stringify(dials) });
+			$("#" + id).empty().remove();
+		}
+	}
+}
 
 function speedDial() {
    chrome.tabs.create({
@@ -50,14 +48,15 @@ function drawDial(dial)
 	
 	$html.mousedown(function(evt)
 	{
+		var $div = $(this);
 		var $src = $(evt.target);
 		if($src.hasClass("item"))
 		{
-			//removeDial($(this).parent().parent().attr("id");
+			removeDial($div.attr("id"));
 		}
 		else if(!$src.hasClass("menu"))
 		{		
-			var url = $(this).data("url");
+			var url = $div.data("url");
 			switch(evt.which)
 			{
 				case 1: // left
@@ -91,6 +90,7 @@ utils.ready(function()
 		
 		for(var i = 0; i < dials.length; i++)
 		{
+			dials[i]._id = dials[i]._id || utils.createUUID();
 			drawDial(dials[i]);
 		}
 	});
@@ -147,8 +147,5 @@ utils.ready(function()
 });
 
 
-/*
-Add openMyPage() as a listener to clicks on the browser action.
-*/
-chrome.browserAction.onClicked.addListener(speedDial);
+
  
