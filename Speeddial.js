@@ -1,6 +1,67 @@
-/*
-Open a new tab, and load "my-page.html" into it.
-*/
+
+
+$(document).ready(function()
+{
+
+	console.log("Document ready");
+	$("#speeddial_searchBtn").click(function()
+	{
+		console.log("Searching");
+		var text = $("#speeddial_searchTxt").val();
+		document.location = "https://www.google.co.uk/search?q=" + text;
+	});
+	
+	
+	$("#dial_add").click(function()
+	{
+		var id = utils.createUUID();
+
+		var defaults = { dialogClass: "utils-no-close", modal: true, closeOnEscape: false, autoOpen: true, buttons: { "Close": function () { $(this).empty().remove(); }}};
+		var settings = $.extend({},defaults, { 
+			width: 400,
+			buttons: 
+			{ 
+				"Add": function () 
+				{ 
+					try
+					{
+						var $this = $(this);
+						var add_dial = new dial($this.find("#addText").val(),$this.find("#addURL").val(),$this.find("#addColour").val());
+						dials.push(add_dial);
+						console.log(add_dial);
+						
+						chrome.storage.local.set({ dials: JSON.stringify(dials) });
+						
+						drawDial(add_dial);
+						
+						$(this).dialog("close"); 
+					}
+					catch(ex)
+					{ alert(ex); }
+				},
+				"Cancel": function () 
+				{ 
+					$(this).dialog("close"); 
+				}
+			},
+			open: function()
+			{
+				$(this).find("label").label( { width: "100px" } );
+				$(this).find("input").input();
+			},
+			close: function()
+			{
+				$(this).find("input").val("");
+			}
+		});
+
+		$("#add_dial").dialog(settings);
+	});
+});
+
+
+
+
 var dials = [];
 var dial = function(name, url, colour)
 {
@@ -12,6 +73,7 @@ var dial = function(name, url, colour)
 
 function removeDial(id)
 {
+	console.log("Remove dial - " + id);
 	for(var i=0; i < dials.length; i++)
 	{
 		if(dials[i]._id == id)
@@ -21,12 +83,6 @@ function removeDial(id)
 			$("#" + id).empty().remove();
 		}
 	}
-}
-
-function speedDial() {
-   chrome.tabs.create({
-     "url": chrome.extension.getURL("Speeddial.html")
-   });
 }
 
 function drawDial(dial)
@@ -71,80 +127,32 @@ function drawDial(dial)
 	$html.insertBefore("#dial_add");
 }
 
-utils.ready(function()
-{
-	// try to read back the storage
-	chrome.storage.local.get('dials', (res) => {
-		var temp = null;
-		try
-		{
-			temp = JSON.parse(res.dials);
-		} catch(ex) 
-		{ 
-			console.log(ex);
-			console.log(res);
-		}
-		
-		dials = temp || [];
-		console.log(dials);
-		
-		for(var i = 0; i < dials.length; i++)
-		{
-			dials[i]._id = dials[i]._id || utils.createUUID();
-			drawDial(dials[i]);
-		}
-	});
+
+chrome.storage.local.get('dials', (res) => {
+	console.log("Read from storage");
+	var temp = null;
+	try
+	{
+		temp = JSON.parse(res.dials);
+	} catch(ex) 
+	{ 
+		console.log(ex);
+		console.log(res);
+	}
+	
+	dials = temp || [];
+	console.log(dials);
 	
 	for(var i = 0; i < dials.length; i++)
 	{
+		console.log("Drawing dial");
+		dials[i]._id = dials[i]._id || utils.createUUID();
 		drawDial(dials[i]);
 	}
-	
-	$("#speeddial_searchBtn").click(function()
-	{
-		var text = $("#speeddial_searchTxt").val();
-		document.location = "https://www.google.co.uk/search?q=" + text;
-	});
-	
-	$("#dial_add").click(function()
-	{
-		var id = utils.createUUID();
-		var html = "<label>Name</label><input type='text' id='addText' /><br />"
-				 + "<label>URL</label><input type='text' id='addURL' /><br />"
-				 + "<label>Colour</label><input type='text' id='addColour' />";
-
-		utils.userChoice("Add Dial",html, 
-		{
-			width: 400,
-			buttons: 
-			{ 
-				"Add": function () 
-				{ 
-					try
-					{
-						var $this = $(this);
-						var add_dial = new dial($this.find("#addText").val(),$this.find("#addURL").val(),$this.find("#addColour").val());
-						dials.push(add_dial);
-						console.log(add_dial);
-						
-						chrome.storage.local.set({ dials: JSON.stringify(dials) });
-						
-						drawDial(add_dial);
-						$(this).empty().remove();
-					}
-					catch(ex)
-					{ alert(ex); }
-				},
-				"Close": function () { $(this).empty().remove(); }
-			},
-			open: function()
-			{
-				$(this).find("label").label( { width: "100px" } );
-				$(this).find("input").input();
-			}
-		});
-	});
 });
+
+
+
 
 
 

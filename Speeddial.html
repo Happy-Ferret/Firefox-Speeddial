@@ -3,8 +3,17 @@
 <html>
   <head>
     <meta charset="utf-8">
-	<link href='https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.min.css' rel='stylesheet' />
+	<style>
+		.utils-no-close .ui-dialog-titlebar-close { display: none; }
+        .utils-centre { text-align: center !important; margin-left: auto !important; margin-right: auto !important; }"
+        .utils-plain-list { list-style-type:none; padding: 0px; }
+	</style>
+	<link href='jquery-ui.min.css' rel='stylesheet' />
 	<link href='Speeddial.css' rel='stylesheet' />
+	
+	<script src='jquery.min.js'></script>
+	<script src='jquery-ui.min.js'></script>
+	
 	<script src='utils.js'></script>
 	<script src='Speeddial.js' ></script>
 	
@@ -22,6 +31,14 @@
   </div>
   <div class='dials'>
 	<div class='dial' id='dial_add'><div style='width: 55px; margin: auto; overflow: hidden;'>+</div></div>
+  </div>
+  
+  <div id='add_dial' title='Add Dial' style='display: none;'>
+	<div style='overflow: hidden;'>
+		<label>Name</label><input type='text' id='addText' /><br />
+		<label>URL</label><input type='text' id='addURL' /><br />
+		<label>Colour</label><input type='text' id='addColour' />
+	</div>
   </div>
 </body>
 
