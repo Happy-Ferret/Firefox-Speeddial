@@ -88,21 +88,25 @@ function removeDial(id)
 function drawDial(dial)
 {
 	console.log(dial);
-	var html = "<div id='" + dial._id + "' class='dial' data-url='" + dial._url + "' style='background-color: " + dial._colour + ";'>"
-		     + "<label>" + dial._name + "</label>"
-			 + "<span class='extra menu'>...</span>" // under the label so its above it in z-index
-			 + "<span class='extra' style='overflow: hidden;'>" + dial._url + "</span>"
-			 + "<ul><li class='item'>Remove</li></ul>"
-		     + "</div>";
-	var $html = $(html);
 	
-	$html.find("label").label({ lineHeight: "180px", margin: "auto", width: "200px" });
-	$html.find(".menu").click(function(evt)
+	var $dialEl = $("<div></div>")
+			.attr("id",dial._id)
+			.addClass("dial")
+			.css({ backgroundColor: dial._colour })
+			.data("url", dial._url)
+			.html("<label></label>"
+				 + "<span class='extra menu'>...</span>"
+				 + "<span class='selector-url extra' style='overflow: hidden;'></span>"
+				 + "<ul><li class='item'>Remove</li></ul>");
+	
+	$dialEl.find("label").label({ lineHeight: "180px", margin: "auto", width: "200px" }).html(document.createTextNode(dial._name));
+	$dialEl.find(".selector-url").html(document.createTextNode(dial._url));
+	$dialEl.find(".menu").click(function(evt)
 	{
 		$(this).parent().find("ul").css( { display: "block" });
 	});
 	
-	$html.mousedown(function(evt)
+	$dialEl.mousedown(function(evt)
 	{
 		var $div = $(this);
 		var $src = $(evt.target);
@@ -124,7 +128,7 @@ function drawDial(dial)
 			}
 		}
 	});
-	$html.insertBefore("#dial_add");
+	$dialEl.insertBefore("#dial_add");
 }
 
 
