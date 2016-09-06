@@ -2,15 +2,19 @@
 
 $(document).ready(function()
 {
-
 	console.log("Document ready");
 	$("#speeddial_searchBtn").click(function()
 	{
 		console.log("Searching");
 		var text = $("#speeddial_searchTxt").val();
-		document.location = "https://www.google.co.uk/search?q=" + text;
+		document.location = "https://www.google.co.uk/search?q=" + encodeURIComponent(text);
 	});
-	
+	$("#speeddial_searchTxt").keydown(function(evt)
+	{
+		if(evt.which == 13) // enter
+			$("#speeddial_searchBtn").trigger("click");
+	});
+
 	
 	$("#dial_add").click(function()
 	{
