@@ -50,8 +50,8 @@ $(document).ready(function()
 			},
 			open: function()
 			{
-				$(this).find("label").label( { width: "100px" } );
-				$(this).find("input").input();
+				$(this).find("label").label( { backgroundColor: "Transparent", border: "0px", width: "75px", padding: "0px 2px 0px 0px", textAlign: "right" } );
+				$(this).find("input").input( { width: "250px", boxSizing: "border-box" } );
 			},
 			close: function()
 			{
@@ -103,8 +103,8 @@ function drawDial(dial)
 				 + "<span class='selector-url extra' style='overflow: hidden;'></span>"
 				 + "<ul><li class='item'>Remove</li></ul>");
 	
-	$dialEl.find("label").label({ lineHeight: "180px", margin: "auto", width: "200px" }).html(document.createTextNode(dial._name));
-	$dialEl.find(".selector-url").html(document.createTextNode(dial._url));
+	$dialEl.find("label").label({ fontWeight: "bold", color: "black", backgroundColor: "Transparent", border: "0px", lineHeight: "180px", margin: "auto", width: "200px", boxSizing: "border-box" }).html(document.createTextNode(dial._name));
+	$dialEl.find(".selector-url").html("");
 	$dialEl.find(".menu").click(function(evt)
 	{
 		$(this).parent().find("ul").css( { display: "block" });
